@@ -1,5 +1,72 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Todolist VanillaJS</title>
+
+        <!-- Basic site meta -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        
+        <!-- Social media meta -->
+        <meta property="title" content="Todolist VanillaJS">
+        <meta property="description" content="The example of Moonsung Jeong, Web Developer">
+        <!-- css files -->
+        <link rel="stylesheet" href="style.css">
+        <script src="https://kit.fontawesome.com/23c505e967.js" crossorigin="anonymous"></script>
+    </head>
     <body>
-        hello world!
+        <noscript>
+            <strong>
+                Moonsung Jeong, Web Developer.
+                This example is built with VanillaJS.
+            </strong>
+        </noscript>
+
+        <div class="todolist">
+            <div class="box-title flex2">
+                <h2 class="head-list">
+                    To do list
+                </h2>
+                <div class="btn-list">
+                    <i class="fas fa-ellipsis-h"></i>
+                </div>
+            </div>
+            <div class="box-body line-top">
+                <div class="box-input flex">
+                    <!-- <i class="fas fa-tasks"> -->
+                    <div class="btn-complete-all _col_xs-10 _center"><i class="fas fa-list-ul"></i></div>
+                    <div class="bar-input _col_xs-80 _padding-x"><input class="text-input" type="text" placeholder="What needs to be done?"></div>
+                    <div class="btn-add _col_xs-10 _center"><i class="far fa-plus-square"></i></div>
+                </div>
+                <div class="box-list">
+                    <ul>
+                        <li class="flex line-top">
+                            <div class="btn-check _col_xs-10 _center"><i class="far fa-check-circle"></i></div>
+                            <div class="bar-text _col_xs-80 _padding-left">do the dishes</div>
+                            <div class="btn-delete _col_xs-10 _center"><i class="fas fa-times"></i></div>
+                        </li>
+                        <li class="flex line-top">
+                            <div class="btn-check _col_xs-10 _center"><i class="far fa-check-circle"></i></div>
+                            <div class="bar-text _col_xs-80 _padding-left">do the dishes</div>
+                            <div class="btn-delete _col_xs-10 _center"><i class="fas fa-times"></i></div>
+                        </li>
+                        <li class="flex line-top">
+                            <div class="btn-check _col_xs-10 _center"><i class="far fa-check-circle"></i></div>
+                            <div class="bar-text _col_xs-80 _padding-left">do the dishes</div>
+                            <div class="btn-delete _col_xs-10 _center"><i class="fas fa-times"></i></div>
+                        </li>
+                    </ul>
+                    <div class="box-menu flex line-top">
+                        <div class="item-monitor _col_xs-20 _small _center">3 items left</div>
+                        <div class="box-filter _col_xs-40 _small _center"><i class="line">all</i><i class="line">active</i><i class="line">completed</i></div>
+                        <div class="btn-clear _col_xs-25 _small _center">clear completed</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="todo.js"></script>
     </body>
 </html>
