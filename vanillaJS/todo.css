@@ -66,3 +66,9 @@ div{
     width:100%;
     height:90%;
 }
+.hide{
+    display:none;
+}
+._opacity06{
+    opacity:0.6;
+}

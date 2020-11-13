@@ -20,13 +20,14 @@ function _ADD_BTN(e){
     if(txt.value === ""){
         return false;
     } 
+    /*
     const node=`
     <li class="${num} flex line-top">
         <div class="btn-check _col_xs-10 _center"><i class="far fa-check-circle"></i></div>
         <div class="bar-text _col_xs-80 _padding-left">${txt.value}</div>
         <div class="btn-delete _col_xs-10 _center"><i class="fas fa-times"></i></div>
-    </li>
-    `
+    </li>`
+    */
     let li = document.createElement('li');
     let div_1 = document.createElement('div');
     let div_2 = document.createElement('div');
@@ -61,19 +62,23 @@ function _ADD_BTN(e){
     this[num] = li;
     txt.value="";
     txt.focus();
+
+    this['btn-add'].style.opacity="0.6";
 }
 function keyUpHandler(e){
-    if(e.keyCode === 13){
-        const el = document.activeElement;
-        const txt = this['text-input'];
-        if(el === txt){
-            if(txt.value !== ""){
-                // List Add Function!!
-                _ADD_BTN.bind(this)();
-                return 0;
-            }
-        }  
+    const txt = this['text-input'];
+    if(txt.value !== ""){
+        if(e.keyCode === 13){
+            // List Add Function!!
+            _ADD_BTN.bind(this)();
+            this['btn-add'].style.opacity="0.6";
+            return 0;
+        }
+        console.log("keyinput");
+        this['btn-add'].style.opacity="1"; 
+        return 0;         
     }
+    this['btn-add'].style.opacity="0.6";
 }
 function _LIST_BTN(e){
     console.log(e.target);
@@ -81,10 +86,10 @@ function _LIST_BTN(e){
 function _LIST_INIT(dom){
     const DOM = _DOM_SCRAPE(dom);
     DOM['count']=0;
-
-    dom.addEventListener('keyup',keyUpHandler.bind(DOM),false);
+    DOM['text-input'].addEventListener('keyup',keyUpHandler.bind(DOM), false);
     DOM['btn-add'].addEventListener('click',_ADD_BTN.bind(DOM), false);
 
+    ////////////////////////////////////////////////////////////
     DOM['btn-list'].addEventListener('click',_LIST_BTN, false);
     DOM['btn-complete-all'].addEventListener('click',_LIST_BTN, false);
     DOM['all'].addEventListener('click',_LIST_BTN, false);
@@ -94,20 +99,6 @@ function _LIST_INIT(dom){
 }
 _LIST_INIT(todolist);
 
-var DOM = _DOM_SCRAPE(todolist);
-
-/* var DOM = _DOM_SCRAPE(todolist);
-function ring(){
-    return this.all;
-}
-var tc = ring.bind(DOM);
-console.log(tc());
-function card(){
-    console.log(this.all);
-}
-var gc = card.bind(DOM);
-gc(); */
-
-
+//var DOM = _DOM_SCRAPE(todolist);
 
 
