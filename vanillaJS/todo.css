@@ -69,6 +69,9 @@ div{
 .hide{
     display:none;
 }
+._opacity02{
+    opacity:0.2;
+}
 ._opacity05{
     opacity:0.5;
 }
@@ -78,4 +81,12 @@ div{
 .check{
     opacity: 1;
     text-decoration-line: line-through;
+}
+.item:hover .btn-delete{
+    color:gray;
+    opacity: 1;
+}
+.btn-delete:hover{
+    color:black!important;
+    opacity: 1;
 }

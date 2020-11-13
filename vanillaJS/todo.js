@@ -36,19 +36,26 @@ function _ADD_BTN(e){
     let i_3 = document.createElement('i');
     
     li.classList.add(num);
+    li.classList.add('item');
     li.classList.add('flex');
     li.classList.add('line-top');
+
     div_1.classList.add('btn-check');
     div_1.classList.add('_col_xs-10');
     div_1.classList.add('_center');
     div_1.classList.add('no_check');
     div_1.addEventListener('click',_CLICK_BTN, false);
+    
     div_2.classList.add('bar-text');
     div_2.classList.add('_col_xs-80');
     div_2.classList.add('_padding-left');
+    
     div_3.classList.add('btn-delete');
     div_3.classList.add('_col_xs-10');
     div_3.classList.add('_center');
+    div_3.classList.add('_opacity02');
+    div_3.addEventListener('click',_DELETE_BTN, false);
+    
     i_1.classList.add('far');
     i_1.classList.add('fa-check-circle');
     i_3.classList.add('fas');
@@ -85,6 +92,11 @@ function _CLICK_BTN(e){
     _CLASS_CHECK_ADD_REMOVE(this,"no_check");
     _CLASS_CHECK_ADD_REMOVE(this,"check");
     _CLASS_CHECK_ADD_REMOVE(this.nextElementSibling,"check");
+}
+function _DELETE_BTN(e){
+    if (confirm("Are you Sure?")) {
+        this.parentNode.remove();
+    }
 }
 function _LIST_BTN(e){
     console.log(e.target);
