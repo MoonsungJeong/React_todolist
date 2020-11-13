@@ -11,6 +11,11 @@ i{
 div{
     padding: 0.3rem;
 }
+.text-input{
+    border:none;
+    width:100%;
+    height:90%;
+}
 .flex{
     display:flex;
     justify-content: space-around;
@@ -61,14 +66,16 @@ div{
 ._center{
     text-align: center;
 }
-.text-input{
-    border:none;
-    width:100%;
-    height:90%;
-}
 .hide{
     display:none;
 }
-._opacity06{
-    opacity:0.6;
+._opacity05{
+    opacity:0.5;
+}
+.no_check{
+    opacity: 0.3;
+}
+.check{
+    opacity: 1;
+    text-decoration-line: line-through;
 }

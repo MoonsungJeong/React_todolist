@@ -16,14 +16,14 @@ function _DOM_SCRAPE(dom){
 }
 function _ADD_BTN(e){
     const txt = this['text-input'];
-    const num = this['count']++;
+    const num = ++this['count'];
     if(txt.value === ""){
         return false;
     } 
     /*
     const node=`
     <li class="${num} flex line-top">
-        <div class="btn-check _col_xs-10 _center"><i class="far fa-check-circle"></i></div>
+        <div class="btn-check _col_xs-10 _center no_check"><i class="far fa-check-circle"></i></div>
         <div class="bar-text _col_xs-80 _padding-left">${txt.value}</div>
         <div class="btn-delete _col_xs-10 _center"><i class="fas fa-times"></i></div>
     </li>`
@@ -41,6 +41,8 @@ function _ADD_BTN(e){
     div_1.classList.add('btn-check');
     div_1.classList.add('_col_xs-10');
     div_1.classList.add('_center');
+    div_1.classList.add('no_check');
+    div_1.addEventListener('click',_CLICK_BTN, false);
     div_2.classList.add('bar-text');
     div_2.classList.add('_col_xs-80');
     div_2.classList.add('_padding-left');
@@ -71,14 +73,18 @@ function keyUpHandler(e){
         if(e.keyCode === 13){
             // List Add Function!!
             _ADD_BTN.bind(this)();
-            this['btn-add'].style.opacity="0.6";
+            this['btn-add'].style.opacity="0.5";
             return 0;
         }
-        console.log("keyinput");
         this['btn-add'].style.opacity="1"; 
         return 0;         
     }
-    this['btn-add'].style.opacity="0.6";
+    this['btn-add'].style.opacity="0.5";
+}
+function _CLICK_BTN(e){
+    _CLASS_CHECK_ADD_REMOVE(this,"no_check");
+    _CLASS_CHECK_ADD_REMOVE(this,"check");
+    _CLASS_CHECK_ADD_REMOVE(this.nextElementSibling,"check");
 }
 function _LIST_BTN(e){
     console.log(e.target);
@@ -88,7 +94,6 @@ function _LIST_INIT(dom){
     DOM['count']=0;
     DOM['text-input'].addEventListener('keyup',keyUpHandler.bind(DOM), false);
     DOM['btn-add'].addEventListener('click',_ADD_BTN.bind(DOM), false);
-
     ////////////////////////////////////////////////////////////
     DOM['btn-list'].addEventListener('click',_LIST_BTN, false);
     DOM['btn-complete-all'].addEventListener('click',_LIST_BTN, false);
@@ -98,7 +103,5 @@ function _LIST_INIT(dom){
     DOM['btn-clear'].addEventListener('click',_LIST_BTN, false);
 }
 _LIST_INIT(todolist);
-
-//var DOM = _DOM_SCRAPE(todolist);
 
 
