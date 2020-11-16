@@ -44,7 +44,7 @@ function _ADD_BTN(e){
     div_1.classList.add('_col_xs-10');
     div_1.classList.add('_center');
     div_1.classList.add('no_check');
-    div_1.addEventListener('click',_CLICK_BTN, false);
+    div_1.addEventListener('click',_CLICK_BTN.bind(this), false);
     
     div_2.classList.add('bar-text');
     div_2.classList.add('_col_xs-80');
@@ -54,7 +54,7 @@ function _ADD_BTN(e){
     div_3.classList.add('_col_xs-10');
     div_3.classList.add('_center');
     div_3.classList.add('_opacity02');
-    div_3.addEventListener('click',_DELETE_BTN, false);
+    div_3.addEventListener('click',_DELETE_BTN.bind(this), false);
     
     i_1.classList.add('far');
     i_1.classList.add('fa-check-circle');
@@ -71,8 +71,11 @@ function _ADD_BTN(e){
     this[num] = li;
     txt.value="";
     txt.focus();
+    this['btn-add'].style.opacity="0.5";
 
-    this['btn-add'].style.opacity="0.6";
+    this['btn-complete-all'].replaceChild(_CREATE_COMPLETE_BTN_NOCHECK(),this['btn-complete-all'].firstChild);
+    _CLASS_CHECK_REMOVE(this['btn-complete-all'],"check");
+    _LIST_COUNT.bind(this)();
 }
 function keyUpHandler(e){
     const txt = this['text-input'];
@@ -89,14 +92,71 @@ function keyUpHandler(e){
     this['btn-add'].style.opacity="0.5";
 }
 function _CLICK_BTN(e){
-    _CLASS_CHECK_ADD_REMOVE(this,"no_check");
-    _CLASS_CHECK_ADD_REMOVE(this,"check");
-    _CLASS_CHECK_ADD_REMOVE(this.nextElementSibling,"check");
+    let node = e.target;
+    let items = this['list'].children;
+    if(!node.hasChildNodes()) 
+        node = node.parentNode;
+    _CLASS_CHECK_ADD_REMOVE(node,"no_check");
+    _CLASS_CHECK_ADD_REMOVE(node,"check");
+    _CLASS_CHECK_ADD_REMOVE(node.nextElementSibling,"check");
+    
+    for(i=0; i < items.length; i++){
+        if(!items[i].firstChild.classList.contains("check")){
+            this['btn-complete-all'].replaceChild(_CREATE_COMPLETE_BTN_NOCHECK(),this['btn-complete-all'].firstChild);
+            _CLASS_CHECK_REMOVE(this['btn-complete-all'],"check");
+            return;
+        }
+    }
+    this['btn-complete-all'].replaceChild(_CREATE_COMPLETE_BTN_CHECK(),this['btn-complete-all'].firstChild);        
+    _CLASS_CHECK_ADD(this['btn-complete-all'],"check");
+    return;
 }
 function _DELETE_BTN(e){
     if (confirm("Are you Sure?")) {
-        this.parentNode.remove();
+        let node = e.target;
+        if(!node.hasChildNodes()) 
+            node = node.parentNode;
+        node.parentNode.remove();
+
+        _LIST_COUNT.bind(this)();
     }
+}
+function _COMPLETE_BTN(e){
+    let btn = this['btn-complete-all'];
+    let bool = btn.classList.contains("check");
+    let items = this['list'].children;
+    if(!items.length) return;
+    if(!bool){
+        for(i=0; i < items.length; i++){
+            _CLASS_CHECK_REMOVE(items[i].children[0],"no_check");
+            _CLASS_CHECK_ADD(items[i].children[0],"check");
+            _CLASS_CHECK_ADD(items[i].children[1],"check");
+        }
+        _CLASS_CHECK_ADD_REMOVE(btn,"check");
+        btn.replaceChild(_CREATE_COMPLETE_BTN_CHECK(),btn.firstChild)
+        return;
+    }
+    for(i=0; i < items.length; i++){
+        _CLASS_CHECK_REMOVE(items[i].children[0],"check");
+        _CLASS_CHECK_REMOVE(items[i].children[1],"check");
+        _CLASS_CHECK_ADD(items[i].children[0],"no_check");
+    }
+    _CLASS_CHECK_ADD_REMOVE(btn,"check");
+    btn.replaceChild(_CREATE_COMPLETE_BTN_NOCHECK(),btn.firstChild)    
+    return;
+}
+//_LIST_COUNT.bind(this)();
+function _LIST_COUNT(e){
+    if(!this['list'].children.length){
+        //list is empty
+        this['btn-complete-all'].style.opacity="0.5";
+        this['btn-complete-all'].replaceChild(_CREATE_COMPLETE_BTN_NOCHECK(),this['btn-complete-all'].firstChild);//btn-complete icon change
+        _CLASS_CHECK_REMOVE(this['btn-complete-all'],"check");
+        return;   
+    }
+    //list is not empty
+    this['btn-complete-all'].style.opacity="1";
+    return;
 }
 function _LIST_BTN(e){
     console.log(e.target);
@@ -106,9 +166,9 @@ function _LIST_INIT(dom){
     DOM['count']=0;
     DOM['text-input'].addEventListener('keyup',keyUpHandler.bind(DOM), false);
     DOM['btn-add'].addEventListener('click',_ADD_BTN.bind(DOM), false);
+    DOM['btn-complete-all'].addEventListener('click',_COMPLETE_BTN.bind(DOM), false);
     ////////////////////////////////////////////////////////////
     DOM['btn-list'].addEventListener('click',_LIST_BTN, false);
-    DOM['btn-complete-all'].addEventListener('click',_LIST_BTN, false);
     DOM['all'].addEventListener('click',_LIST_BTN, false);
     DOM['active'].addEventListener('click',_LIST_BTN, false);
     DOM['completed'].addEventListener('click',_LIST_BTN, false);
