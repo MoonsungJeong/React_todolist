@@ -28,6 +28,10 @@ div{
     border-top: 1px solid black;
 }
 .line{
+    border:1px solid white;
+    margin:0.2rem;
+}
+.selected{
     border:1px solid black;
     margin:0.2rem;
 }

@@ -99,8 +99,10 @@ function _CLICK_BTN(e){
     _CLASS_CHECK_ADD_REMOVE(node,"no_check");
     _CLASS_CHECK_ADD_REMOVE(node,"check");
     _CLASS_CHECK_ADD_REMOVE(node.nextElementSibling,"check");
+    _CLASS_CHECK_ADD_REMOVE(node.parentNode,"check");
     _LIST_COUNT.bind(this)();
 
+    // below code is changing complete-btn
     for(i=0; i < items.length; i++){
         if(!items[i].firstChild.classList.contains("check")){
             this['btn-complete-all'].replaceChild(_CREATE_COMPLETE_BTN_NOCHECK(),this['btn-complete-all'].firstChild);
@@ -132,6 +134,7 @@ function _COMPLETE_BTN(e){
             _CLASS_CHECK_REMOVE(items[i].children[0],"no_check");
             _CLASS_CHECK_ADD(items[i].children[0],"check");
             _CLASS_CHECK_ADD(items[i].children[1],"check");
+            _CLASS_CHECK_ADD(items[i],"check");
         }
         _CLASS_CHECK_ADD_REMOVE(btn,"check");
         btn.replaceChild(_CREATE_COMPLETE_BTN_CHECK(),btn.firstChild)
@@ -141,6 +144,7 @@ function _COMPLETE_BTN(e){
     for(i=0; i < items.length; i++){
         _CLASS_CHECK_REMOVE(items[i].children[0],"check");
         _CLASS_CHECK_REMOVE(items[i].children[1],"check");
+        _CLASS_CHECK_REMOVE(items[i],"check");
         _CLASS_CHECK_ADD(items[i].children[0],"no_check");
     }
     _CLASS_CHECK_ADD_REMOVE(btn,"check");
@@ -186,6 +190,51 @@ function _ITEM_NUM_CHECK(e){
     }
     this['item-monitor'].innerHTML = str;
 }
+function _DISPLAY_ALL(e){
+    let items = this['box-filter'];
+    let list = this['list'];
+    for(i=0; i < items.children.length; i++){
+        _CLASS_CHECK_REMOVE(items.children[i],"selected");
+        _CLASS_CHECK_ADD(items.children[i],"line");
+    }
+    _CLASS_CHECK_REMOVE(items.children[0],"line");
+    _CLASS_CHECK_ADD(items.children[0],"selected");
+    for(i=0; i < list.children.length; i++){
+        list.children[i].style.display = "flex";
+    }
+}
+function _DISPLAY_ACTIVE(e){
+    let items = this['box-filter'];
+    let list = this['list'];
+    for(i=0; i < items.children.length; i++){
+        _CLASS_CHECK_REMOVE(items.children[i],"selected");
+        _CLASS_CHECK_ADD(items.children[i],"line");
+    }
+    _CLASS_CHECK_REMOVE(items.children[1],"line");
+    _CLASS_CHECK_ADD(items.children[1],"selected"); 
+    for(i=0; i < list.children.length; i++){
+        if(list.children[i].classList.contains("check"))
+            list.children[i].style.display = "none";
+        else
+            list.children[i].style.display = "flex";
+    }
+}
+function _DISPLAY_COMPLETED(e){
+    let items = this['box-filter'];
+    let list = this['list'];
+    for(i=0; i < items.children.length; i++){
+        _CLASS_CHECK_REMOVE(items.children[i],"selected");
+        _CLASS_CHECK_ADD(items.children[i],"line");
+    }
+    _CLASS_CHECK_REMOVE(items.children[2],"line");
+    _CLASS_CHECK_ADD(items.children[2],"selected");
+    for(i=0; i < list.children.length; i++){
+        if(list.children[i].classList.contains("check"))
+            list.children[i].style.display = "flex";
+        else
+            list.children[i].style.display = "none";
+    }
+}
 function _LIST_BTN(e){
     console.log(e.target);
 }
@@ -195,11 +244,12 @@ function _LIST_INIT(dom){
     DOM['text-input'].addEventListener('keyup',keyUpHandler.bind(DOM), false);
     DOM['btn-add'].addEventListener('click',_ADD_BTN.bind(DOM), false);
     DOM['btn-complete-all'].addEventListener('click',_COMPLETE_BTN.bind(DOM), false);
+    
+    DOM['all'].addEventListener('click',_DISPLAY_ALL.bind(DOM), false);
+    DOM['active'].addEventListener('click',_DISPLAY_ACTIVE.bind(DOM), false);
+    DOM['completed'].addEventListener('click',_DISPLAY_COMPLETED.bind(DOM), false);
     ////////////////////////////////////////////////////////////
     DOM['btn-list'].addEventListener('click',_LIST_BTN, false);
-    DOM['all'].addEventListener('click',_LIST_BTN, false);
-    DOM['active'].addEventListener('click',_LIST_BTN, false);
-    DOM['completed'].addEventListener('click',_LIST_BTN, false);
     DOM['btn-clear'].addEventListener('click',_LIST_BTN, false);
 }
 _LIST_INIT(todolist);
