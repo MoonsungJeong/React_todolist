@@ -99,7 +99,8 @@ function _CLICK_BTN(e){
     _CLASS_CHECK_ADD_REMOVE(node,"no_check");
     _CLASS_CHECK_ADD_REMOVE(node,"check");
     _CLASS_CHECK_ADD_REMOVE(node.nextElementSibling,"check");
-    
+    _LIST_COUNT.bind(this)();
+
     for(i=0; i < items.length; i++){
         if(!items[i].firstChild.classList.contains("check")){
             this['btn-complete-all'].replaceChild(_CREATE_COMPLETE_BTN_NOCHECK(),this['btn-complete-all'].firstChild);
@@ -112,14 +113,14 @@ function _CLICK_BTN(e){
     return;
 }
 function _DELETE_BTN(e){
-    if (confirm("Are you Sure?")) {
+    //if (confirm("Are you Sure?")) {
         let node = e.target;
         if(!node.hasChildNodes()) 
             node = node.parentNode;
         node.parentNode.remove();
 
         _LIST_COUNT.bind(this)();
-    }
+    //}
 }
 function _COMPLETE_BTN(e){
     let btn = this['btn-complete-all'];
@@ -134,6 +135,7 @@ function _COMPLETE_BTN(e){
         }
         _CLASS_CHECK_ADD_REMOVE(btn,"check");
         btn.replaceChild(_CREATE_COMPLETE_BTN_CHECK(),btn.firstChild)
+        _ITEM_NUM_CHECK.bind(this)();
         return;
     }
     for(i=0; i < items.length; i++){
@@ -143,20 +145,46 @@ function _COMPLETE_BTN(e){
     }
     _CLASS_CHECK_ADD_REMOVE(btn,"check");
     btn.replaceChild(_CREATE_COMPLETE_BTN_NOCHECK(),btn.firstChild)    
+    _ITEM_NUM_CHECK.bind(this)();
     return;
 }
 //_LIST_COUNT.bind(this)();
 function _LIST_COUNT(e){
     if(!this['list'].children.length){
         //list is empty
-        this['btn-complete-all'].style.opacity="0.5";
         this['btn-complete-all'].replaceChild(_CREATE_COMPLETE_BTN_NOCHECK(),this['btn-complete-all'].firstChild);//btn-complete icon change
         _CLASS_CHECK_REMOVE(this['btn-complete-all'],"check");
+        this['btn-complete-all'].style.opacity="0.5";
+        _CLASS_CHECK_REMOVE(this['box-menu'],"flex");
+        _CLASS_CHECK_ADD(this['box-menu'],"hide");
         return;   
     }
     //list is not empty
     this['btn-complete-all'].style.opacity="1";
+    _CLASS_CHECK_REMOVE(this['box-menu'],"hide");
+    _CLASS_CHECK_ADD(this['box-menu'],"flex");
+    _ITEM_NUM_CHECK.bind(this)();
     return;
+}
+function _ITEM_NUM_CHECK(e){
+    let num=0;
+    let str;
+    let items = this['list'].children;
+    for(i=0; i < items.length; i++){
+        if(!items[i].firstChild.classList.contains("check"))
+            num++;
+    }
+    switch(num){
+        case 0:
+            str = "0 item left"
+            break;
+        case 1:
+            str = "1 item left"
+            break;
+        default:
+            str = num+" items left"
+    }
+    this['item-monitor'].innerHTML = str;
 }
 function _LIST_BTN(e){
     console.log(e.target);
