@@ -235,6 +235,16 @@ function _DISPLAY_COMPLETED(e){
             list.children[i].style.display = "none";
     }
 }
+function _CLEAR_BTN(e){
+    let list = this['list'];
+    console.log(list.children.length);
+    for(i=0; i < list.children.length; i++){
+        if(list.children[i].classList.contains("check")){
+            list.children[i].remove();
+            i--;
+        }
+    }
+}
 function _LIST_BTN(e){
     console.log(e.target);
 }
@@ -244,13 +254,13 @@ function _LIST_INIT(dom){
     DOM['text-input'].addEventListener('keyup',keyUpHandler.bind(DOM), false);
     DOM['btn-add'].addEventListener('click',_ADD_BTN.bind(DOM), false);
     DOM['btn-complete-all'].addEventListener('click',_COMPLETE_BTN.bind(DOM), false);
-    
     DOM['all'].addEventListener('click',_DISPLAY_ALL.bind(DOM), false);
     DOM['active'].addEventListener('click',_DISPLAY_ACTIVE.bind(DOM), false);
     DOM['completed'].addEventListener('click',_DISPLAY_COMPLETED.bind(DOM), false);
+    
+    DOM['btn-clear'].addEventListener('click',_CLEAR_BTN.bind(DOM), false);
     ////////////////////////////////////////////////////////////
     DOM['btn-list'].addEventListener('click',_LIST_BTN, false);
-    DOM['btn-clear'].addEventListener('click',_LIST_BTN, false);
 }
 _LIST_INIT(todolist);
 
