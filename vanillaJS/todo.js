@@ -39,10 +39,10 @@ function _ADD_BTN(e){
     li.classList.add('item');
     li.classList.add('flex');
     li.classList.add('line-top');
-    li.classList.add('draggable');   //////////////////////////////////////////////////////////////////////////////////
-    li.setAttribute("draggable", "true"); /////////////////////////////////////////////////////////////
-    li.addEventListener('dragstart',function(){ li.classList.add('dragging'); });///////////////////////////////////
-    li.addEventListener('dragend',function(){ li.classList.remove('dragging'); });/////////////////////////////////
+    li.classList.add('draggable');   
+    li.setAttribute("draggable", "true"); 
+    li.addEventListener('dragstart',function(){ li.classList.add('dragging'); });
+    li.addEventListener('dragend',function(){ li.classList.remove('dragging'); });
     
     div_1.classList.add('btn-check');
     div_1.classList.add('_col_xs-10');
@@ -297,7 +297,7 @@ function _LIST_INIT(dom){
     DOM['completed'].addEventListener('click',_DISPLAY_COMPLETED.bind(DOM), false);
     DOM['btn-clear'].addEventListener('click',_CLEAR_BTN.bind(DOM), false);    
     DOM['btn-list'].addEventListener('click',_TITLE_BTN.bind(DOM), false);
-    DOM['list'].addEventListener('dragover',_DRAG_OVER,false); //////////////////////////////////////
+    DOM['list'].addEventListener('dragover',_DRAG_OVER,false); 
 }
 _LIST_INIT(todolist);
 
