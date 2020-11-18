@@ -86,6 +86,15 @@ div{
     opacity: 1;
     text-decoration-line: line-through;
 }
+.draggable {
+    padding: 0.5rem;
+    background-color: white;
+    border: 1px solid black;
+    cursor: move;
+}
+.draggable.dragging {
+    opacity: .5;
+}
 .item:hover .btn-delete{
     color:gray;
     opacity: 1;

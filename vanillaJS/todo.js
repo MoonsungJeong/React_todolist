@@ -39,7 +39,11 @@ function _ADD_BTN(e){
     li.classList.add('item');
     li.classList.add('flex');
     li.classList.add('line-top');
-
+    li.classList.add('draggable');   //////////////////////////////////////////////////////////////////////////////////
+    li.setAttribute("draggable", "true"); /////////////////////////////////////////////////////////////
+    li.addEventListener('dragstart',function(){ li.classList.add('dragging'); });///////////////////////////////////
+    li.addEventListener('dragend',function(){ li.classList.remove('dragging'); });/////////////////////////////////
+    
     div_1.classList.add('btn-check');
     div_1.classList.add('_col_xs-10');
     div_1.classList.add('_center');
@@ -115,14 +119,14 @@ function _CLICK_BTN(e){
     return;
 }
 function _DELETE_BTN(e){
-    //if (confirm("Are you Sure?")) {
+    if (confirm("Are you Sure?")) {
         let node = e.target;
         if(!node.hasChildNodes()) 
             node = node.parentNode;
         node.parentNode.remove();
 
         _LIST_COUNT.bind(this)();
-    //}
+    }
 }
 function _COMPLETE_BTN(e){
     let btn = this['btn-complete-all'];
@@ -236,18 +240,52 @@ function _DISPLAY_COMPLETED(e){
     }
 }
 function _CLEAR_BTN(e){
-    let list = this['list'];
-    console.log(list.children.length);
-    for(i=0; i < list.children.length; i++){
-        if(list.children[i].classList.contains("check")){
-            list.children[i].remove();
-            i--;
+    if (confirm("Are you Sure?")) {
+        let list = this['list'];
+        for(i=0; i < list.children.length; i++){
+            if(list.children[i].classList.contains("check")){
+                list.children[i].remove();
+                i--;
+            }
         }
+        this['btn-complete-all'].replaceChild(_CREATE_COMPLETE_BTN_NOCHECK(),this['btn-complete-all'].firstChild);
+        _CLASS_CHECK_REMOVE(this['btn-complete-all'],"check");
+        _LIST_COUNT.bind(this)();
     }
 }
 function _LIST_BTN(e){
     console.log(e.target);
 }
+function _TITLE_BTN(e){
+    var person = prompt("Title Change", "Todolist");
+    if( person !== null){
+        this['head-list'].innerHTML = person;
+    }
+}
+function _DRAG_OVER(e){
+    e.preventDefault();
+    const afterElement = getDragAfterElement(this, e.clientY)
+    const draggable = document.querySelector('.dragging')
+    if (afterElement == null) {
+        this.appendChild(draggable)
+    } else {
+        this.insertBefore(draggable, afterElement)
+    }
+}
+function getDragAfterElement(container, y) {
+    const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')]
+
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect()
+        const offset = y - box.top - box.height / 2
+        if (offset < 0 && offset > closest.offset) {
+        return { offset: offset, element: child }
+        } else {
+        return closest
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).element
+}
+
 function _LIST_INIT(dom){
     const DOM = _DOM_SCRAPE(dom);
     DOM['count']=0;
@@ -257,10 +295,9 @@ function _LIST_INIT(dom){
     DOM['all'].addEventListener('click',_DISPLAY_ALL.bind(DOM), false);
     DOM['active'].addEventListener('click',_DISPLAY_ACTIVE.bind(DOM), false);
     DOM['completed'].addEventListener('click',_DISPLAY_COMPLETED.bind(DOM), false);
-    
-    DOM['btn-clear'].addEventListener('click',_CLEAR_BTN.bind(DOM), false);
-    ////////////////////////////////////////////////////////////
-    DOM['btn-list'].addEventListener('click',_LIST_BTN, false);
+    DOM['btn-clear'].addEventListener('click',_CLEAR_BTN.bind(DOM), false);    
+    DOM['btn-list'].addEventListener('click',_TITLE_BTN.bind(DOM), false);
+    DOM['list'].addEventListener('dragover',_DRAG_OVER,false); //////////////////////////////////////
 }
 _LIST_INIT(todolist);
 
