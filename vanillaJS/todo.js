@@ -96,6 +96,7 @@ function keyUpHandler(e){
     this['btn-add'].style.opacity="0.5";
 }
 function _CLICK_BTN(e){
+    let i;
     let node = e.target;
     let items = this['list'].children;
     if(!node.hasChildNodes()) 
@@ -129,6 +130,7 @@ function _DELETE_BTN(e){
     }
 }
 function _COMPLETE_BTN(e){
+    let i;
     let btn = this['btn-complete-all'];
     let bool = btn.classList.contains("check");
     let items = this['list'].children;
@@ -175,6 +177,7 @@ function _LIST_COUNT(e){
     return;
 }
 function _ITEM_NUM_CHECK(e){
+    let i;
     let num=0;
     let str;
     let items = this['list'].children;
@@ -195,6 +198,7 @@ function _ITEM_NUM_CHECK(e){
     this['item-monitor'].innerHTML = str;
 }
 function _DISPLAY_ALL(e){
+    let i;
     let items = this['box-filter'];
     let list = this['list'];
     for(i=0; i < items.children.length; i++){
@@ -208,6 +212,7 @@ function _DISPLAY_ALL(e){
     }
 }
 function _DISPLAY_ACTIVE(e){
+    let i;
     let items = this['box-filter'];
     let list = this['list'];
     for(i=0; i < items.children.length; i++){
@@ -224,6 +229,7 @@ function _DISPLAY_ACTIVE(e){
     }
 }
 function _DISPLAY_COMPLETED(e){
+    let i;
     let items = this['box-filter'];
     let list = this['list'];
     for(i=0; i < items.children.length; i++){
@@ -240,6 +246,7 @@ function _DISPLAY_COMPLETED(e){
     }
 }
 function _CLEAR_BTN(e){
+    let i;
     if (confirm("Are you Sure?")) {
         let list = this['list'];
         for(i=0; i < list.children.length; i++){
@@ -252,9 +259,6 @@ function _CLEAR_BTN(e){
         _CLASS_CHECK_REMOVE(this['btn-complete-all'],"check");
         _LIST_COUNT.bind(this)();
     }
-}
-function _LIST_BTN(e){
-    console.log(e.target);
 }
 function _TITLE_BTN(e){
     var person = prompt("Title Change", "Todolist");
